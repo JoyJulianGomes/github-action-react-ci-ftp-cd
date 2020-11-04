@@ -1,0 +1,21 @@
+name: React App Staging
+
+on:
+  push:
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  info:
+    name: get information
+    runs-on: ubuntu-latest
+    outputs:
+    - TRANCH_NAME: ${{ steps.step1.outputs.TRANCH_NAME }}
+
+    steps:
+    - name: sets branch/tag name
+      id: step1
+      run: |
+            ref="${github_ref////-}"
+            echo $ref
+            echo "::set-output name=TRANCH_NAME::$ref"
