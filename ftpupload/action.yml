@@ -1,0 +1,37 @@
+name: 'ftp upload'
+description: 'uploads the bundle file to the ftp server'
+inputs:
+  ftphost:
+    description: 'ftp host address'
+    required: true
+  ftpuser:
+    description: 'ftp user'
+    required: true
+  ftppassword:
+    description: 'ftp password'
+    required: true
+  branchname:
+    description: 'name of the triggering branch'
+    required: true
+  domain_prefix: 
+    description: "folder name prefix where bundle is uploaded"
+    required: true
+outputs:
+  upload_folder: 
+    description: "folder where bundle is uploaded"
+    value: ${{steps.step1.outputs.UPLOAD_FOLDER}}
+runs:
+  using: "composite"
+  steps:
+  - id: step1
+    shell: bash
+    run: echo "::set-output name=UPLOAD_FOLDER::${{inputs.domain_prefix}}/${{inputs.branchname}}"
+  - id: step2
+    shell: bash
+    run: |
+      echo ${{inputs.ftpaddress}}
+      echo ${{inputs.ftphost}}
+      echo ${{inputs.ftppassword}}
+      echo ${{inputs.domain_prefix}}
+      echo ${{inputs.branchname}}
+      echo ${{steps.step1.outputs.UPLOAD_FOLDER}}

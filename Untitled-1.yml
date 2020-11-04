@@ -87,7 +87,3 @@ jobs:
     needs: job1
     steps:
     - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
-
-    
-      env:
-        VAR1: ${{ steps.step1.outputs.VAR1 }}
