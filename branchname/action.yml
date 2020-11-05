@@ -1,16 +1,15 @@
-name: 'name getter'
+name: 'branch name extractor'
 description: 'gets the hypened branch/tag name of the branch/tag that triggered the action'
 outputs:
   TRANCH_NAME: 
-    description: "Random number"
-    value: "VAR1"
-    # value: ${{steps.step1.outputs.TRANCH_NAME}}
+    description: "Branch or tag name"
+    value: ${{steps.step1.outputs.TRANCH_NAME}}
 runs:
   using: "composite"
   steps:
   - id: step1
     shell: bash
     run: |
-      ref="${github_ref////-}"
-      echo $ref
-      echo "::set-output name=TRANCH_NAME::$ref"
+      name=$(echo ${GITHUB_REF////-} | cut --fields="3-" --delimiter='-')
+      echo $name
+      echo "::set-output name=TRANCH_NAME::$name"
